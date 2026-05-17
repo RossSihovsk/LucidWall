@@ -26,3 +26,6 @@ LucidWall is a lightweight, single-purpose Android application designed to give 
 2. Open the project in Android Studio.
 3. Build and run on a physical device or emulator.
 4. Or you can install it by downloading APK from Release section
+
+<img width="500" height="1080" alt="1" src="https://github.com/user-attachments/assets/2c581e1d-c199-4006-920f-78bdc4f21a42" />
+
