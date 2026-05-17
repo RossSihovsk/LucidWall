@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LucidWall</string>
+    <string name="your_blurred_wallpaper">Twoja rozmazana tapeta</string>
+    <string name="change_image">Zmień obraz</string>
+    <string name="select_image">Wybierz obraz</string>
+    <string name="blur_intensity">Intensywność rozmycia</string>
+    <string name="target_screen_title">Ekran docelowy dla rozmytego obrazu</string>
+    <string name="target_home_screen">Ekran główny (Czysty ekran blokady)</string>
+    <string name="target_lock_screen">Ekran blokady (Czysty ekran główny)</string>
+    <string name="target_both_screens">Oba ekrany</string>
+    <string name="apply_wallpaper">Zastosuj tapetę</string>
+    <string name="image_preview">Podgląd obrazu</string>
+    <string name="error_loading_image">Błąd ładowania obrazu</string>
+    <string name="failed_to_apply">Nie udało się zastosować tapety</string>
+    <string name="success_applied">Tapeta zastosowana pomyślnie!</string>
+</resources>

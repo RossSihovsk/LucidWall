@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LucidWall</string>
+    <string name="your_blurred_wallpaper">Ваші розмиті шпалери</string>
+    <string name="change_image">Змінити зображення</string>
+    <string name="select_image">Вибрати зображення</string>
+    <string name="blur_intensity">Інтенсивність розмиття</string>
+    <string name="target_screen_title">Цільовий екран для розмитого зображення</string>
+    <string name="target_home_screen">Головний екран (Чистий екран блокування)</string>
+    <string name="target_lock_screen">Екран блокування (Чистий головний екран)</string>
+    <string name="target_both_screens">Обидва екрани</string>
+    <string name="apply_wallpaper">Застосувати шпалери</string>
+    <string name="image_preview">Попередній перегляд зображення</string>
+    <string name="error_loading_image">Помилка завантаження зображення</string>
+    <string name="failed_to_apply">Не вдалося застосувати шпалери</string>
+    <string name="success_applied">Шпалери успішно застосовані!</string>
+</resources>

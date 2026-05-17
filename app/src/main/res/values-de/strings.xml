@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LucidWall</string>
+    <string name="your_blurred_wallpaper">Dein unscharfes Hintergrundbild</string>
+    <string name="change_image">Bild ändern</string>
+    <string name="select_image">Bild auswählen</string>
+    <string name="blur_intensity">Unschärfeintensität</string>
+    <string name="target_screen_title">Ziel für unscharfes Bild</string>
+    <string name="target_home_screen">Startbildschirm (Sperrbildschirm klar)</string>
+    <string name="target_lock_screen">Sperrbildschirm (Startbildschirm klar)</string>
+    <string name="target_both_screens">Beide Bildschirme</string>
+    <string name="apply_wallpaper">Hintergrundbild anwenden</string>
+    <string name="image_preview">Bildvorschau</string>
+    <string name="error_loading_image">Fehler beim Laden des Bildes</string>
+    <string name="failed_to_apply">Hintergrund konnte nicht angewendet werden</string>
+    <string name="success_applied">Hintergrund erfolgreich angewendet!</string>
+</resources>

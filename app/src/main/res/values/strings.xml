@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LucidWall</string>
+    <string name="your_blurred_wallpaper">Your Blurred Wallpaper</string>
+    <string name="change_image">Change Image</string>
+    <string name="select_image">Select Image</string>
+    <string name="blur_intensity">Blur Intensity</string>
+    <string name="target_screen_title">Target Screen for Blurred Image</string>
+    <string name="target_home_screen">Home Screen (Clear Lock)</string>
+    <string name="target_lock_screen">Lock Screen (Clear Home)</string>
+    <string name="target_both_screens">Both Screens</string>
+    <string name="apply_wallpaper">Apply Wallpaper</string>
+    <string name="image_preview">Image Preview</string>
+    <string name="error_loading_image">Error loading image</string>
+    <string name="failed_to_apply">Failed to apply wallpaper</string>
+    <string name="success_applied">Wallpaper Applied Successfully!</string>
+</resources>
