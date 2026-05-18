@@ -18,7 +18,7 @@ LucidWall is a lightweight, single-purpose Android application designed to give 
 * **Image Processing:** Android RenderScript Intrinsics Replacement Toolkit, Coil (for previews)
 
 ## 📱 Requirements
-* Minimum SDK: 24 (Targeting Android 15 / API 34+)
+* Minimum SDK: 35 (Targeting Android 15 )
 * Optimized for modern devices like the Google Pixel series.
 
 ## 🚀 Getting Started
