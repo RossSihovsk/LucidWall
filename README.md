@@ -27,5 +27,8 @@ LucidWall is a lightweight, single-purpose Android application designed to give 
 3. Build and run on a physical device or emulator.
 4. Or you can install it by downloading APK from Release section
 
-<img width="500" height="1080" alt="1" src="https://github.com/user-attachments/assets/2c581e1d-c199-4006-920f-78bdc4f21a42" />
+- Users can quickly return to previously set wallpapers and reapply them 
+- Widget: An available widget that allows users to quickly change the wallpaper
 
+<img width="500" height="1080" alt="image" src="https://github.com/user-attachments/assets/ca3d02ac-7be5-45bb-b84a-148ef2cbfbf3" />
+<img width="500" height="1080" alt="1" src="https://github.com/user-attachments/assets/2c581e1d-c199-4006-920f-78bdc4f21a42" />
