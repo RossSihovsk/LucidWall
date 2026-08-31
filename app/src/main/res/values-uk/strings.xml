@@ -14,4 +14,8 @@
     <string name="error_loading_image">Помилка завантаження зображення</string>
     <string name="failed_to_apply">Не вдалося застосувати шпалери</string>
     <string name="success_applied">Шпалери успішно застосовані!</string>
+    <string name="history_title">Останні шпалери</string>
+    <string name="history_home">Головний</string>
+    <string name="history_lock">Блокування</string>
+    <string name="history_both">Обидва</string>
 </resources>

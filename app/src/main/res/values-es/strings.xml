@@ -14,4 +14,8 @@
     <string name="error_loading_image">Error al cargar la imagen</string>
     <string name="failed_to_apply">No se pudo aplicar el fondo de pantalla</string>
     <string name="success_applied">¡Fondo de pantalla aplicado correctamente!</string>
+    <string name="history_title">Fondos recientes</string>
+    <string name="history_home">Inicio</string>
+    <string name="history_lock">Bloqueo</string>
+    <string name="history_both">Ambos</string>
 </resources>

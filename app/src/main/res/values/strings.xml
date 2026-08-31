@@ -14,4 +14,8 @@
     <string name="error_loading_image">Error loading image</string>
     <string name="failed_to_apply">Failed to apply wallpaper</string>
     <string name="success_applied">Wallpaper Applied Successfully!</string>
+    <string name="history_title">Recent Wallpapers</string>
+    <string name="history_home">Home</string>
+    <string name="history_lock">Lock</string>
+    <string name="history_both">Both</string>
 </resources>

@@ -14,4 +14,8 @@
     <string name="error_loading_image">Fehler beim Laden des Bildes</string>
     <string name="failed_to_apply">Hintergrund konnte nicht angewendet werden</string>
     <string name="success_applied">Hintergrund erfolgreich angewendet!</string>
+    <string name="history_title">Letzte Hintergründe</string>
+    <string name="history_home">Startseite</string>
+    <string name="history_lock">Sperre</string>
+    <string name="history_both">Beide</string>
 </resources>

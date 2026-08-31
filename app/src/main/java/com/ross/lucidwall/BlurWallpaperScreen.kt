@@ -36,12 +36,19 @@ fun BlurWallpaperScreen(viewModel: MainViewModel = viewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     val blurRadius by viewModel.blurRadius.collectAsState()
     val configuration by viewModel.configuration.collectAsState()
+    val history by viewModel.history.collectAsState()
 
     val context = LocalContext.current
 
+    // Track which history entry is currently loaded so we can highlight it
+    var selectedHistoryId by remember { mutableStateOf<String?>(null) }
+
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> viewModel.onImagePicked(context, uri) }
+        onResult = { uri ->
+            selectedHistoryId = null   // fresh pick clears the selection
+            viewModel.onImagePicked(context, uri)
+        }
     )
 
     LaunchedEffect(uiState) {
@@ -62,10 +69,7 @@ fun BlurWallpaperScreen(viewModel: MainViewModel = viewModel()) {
         var scale by remember { mutableFloatStateOf(1f) }
         var offsetX by remember { mutableFloatStateOf(0f) }
         var offsetY by remember { mutableFloatStateOf(0f) }
-
-// Next edit chunk starts here, so we replace from 'var containerSize by' down to end of controls button select image 
         var containerSize by remember { mutableStateOf(IntSize.Zero) }
-
         var cardOffsetY by remember { mutableFloatStateOf(0f) }
         var cardHeight by remember { mutableFloatStateOf(0f) }
 
@@ -113,7 +117,6 @@ fun BlurWallpaperScreen(viewModel: MainViewModel = viewModel()) {
                 .offset { IntOffset(0, cardOffsetY.roundToInt()) }
                 .onSizeChanged { cardHeight = it.height.toFloat() }
                 .padding(16.dp)
-                // Offset bottom to avoid nav bar issues if not handling edge-to-edge perfectly.
                 .padding(bottom = 32.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color(0xFF1E1E1E).copy(alpha = 0.85f),
@@ -152,9 +155,27 @@ fun BlurWallpaperScreen(viewModel: MainViewModel = viewModel()) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(max = 400.dp)
+                        .heightIn(max = 480.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
+                    // ── Wallpaper History ──────────────────────────────────────
+                    if (history.isNotEmpty()) {
+                        WallpaperHistorySection(
+                            entries = history,
+                            selectedId = selectedHistoryId,
+                            onSelect = { entry ->
+                                selectedHistoryId = entry.id
+                                // Reset pan/zoom so loaded image starts fresh
+                                scale = 1f; offsetX = 0f; offsetY = 0f
+                                viewModel.loadHistoryEntry(entry, context)
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        HorizontalDivider(color = Color.White.copy(alpha = 0.12f))
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+
+                    // ── Select / Change Image ──────────────────────────────────
                     Button(
                         onClick = {
                             photoPickerLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
@@ -164,71 +185,72 @@ fun BlurWallpaperScreen(viewModel: MainViewModel = viewModel()) {
                         Text(if (uiState is UiState.ImageSelected) stringResource(R.string.change_image) else stringResource(R.string.select_image))
                     }
 
-                if (uiState is UiState.ImageSelected) {
-                    Spacer(modifier = Modifier.height(16.dp))
+                    if (uiState is UiState.ImageSelected) {
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(stringResource(R.string.blur_intensity), style = MaterialTheme.typography.titleSmall, color = Color.White)
-                    Slider(
-                        value = blurRadius,
-                        onValueChange = { viewModel.onBlurRadiusChanged(it) },
-                        valueRange = 0f..25f,
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = SliderDefaults.colors(
-                            thumbColor = Color.White,
-                            activeTrackColor = Color.White,
-                            inactiveTrackColor = Color.LightGray
+                        Text(stringResource(R.string.blur_intensity), style = MaterialTheme.typography.titleSmall, color = Color.White)
+                        Slider(
+                            value = blurRadius,
+                            onValueChange = { viewModel.onBlurRadiusChanged(it) },
+                            valueRange = 0f..25f,
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = SliderDefaults.colors(
+                                thumbColor = Color.White,
+                                activeTrackColor = Color.White,
+                                inactiveTrackColor = Color.LightGray
+                            )
                         )
-                    )
 
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(stringResource(R.string.target_screen_title), style = MaterialTheme.typography.titleSmall, color = Color.White)
-                    
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButton(
-                            selected = configuration == 0,
-                            onClick = { viewModel.onConfigurationChanged(0) },
-                            colors = RadioButtonDefaults.colors(selectedColor = Color.White, unselectedColor = Color.LightGray)
-                        )
-                        Text(stringResource(R.string.target_home_screen), style = MaterialTheme.typography.bodySmall, color = Color.White)
-                    }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButton(
-                            selected = configuration == 1,
-                            onClick = { viewModel.onConfigurationChanged(1) },
-                            colors = RadioButtonDefaults.colors(selectedColor = Color.White, unselectedColor = Color.LightGray)
-                        )
-                        Text(stringResource(R.string.target_lock_screen), style = MaterialTheme.typography.bodySmall, color = Color.White)
-                    }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButton(
-                            selected = configuration == 2,
-                            onClick = { viewModel.onConfigurationChanged(2) },
-                            colors = RadioButtonDefaults.colors(selectedColor = Color.White, unselectedColor = Color.LightGray)
-                        )
-                        Text(stringResource(R.string.target_both_screens), style = MaterialTheme.typography.bodySmall, color = Color.White)
-                    }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(stringResource(R.string.target_screen_title), style = MaterialTheme.typography.titleSmall, color = Color.White)
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(
+                                selected = configuration == 0,
+                                onClick = { viewModel.onConfigurationChanged(0) },
+                                colors = RadioButtonDefaults.colors(selectedColor = Color.White, unselectedColor = Color.LightGray)
+                            )
+                            Text(stringResource(R.string.target_home_screen), style = MaterialTheme.typography.bodySmall, color = Color.White)
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(
+                                selected = configuration == 1,
+                                onClick = { viewModel.onConfigurationChanged(1) },
+                                colors = RadioButtonDefaults.colors(selectedColor = Color.White, unselectedColor = Color.LightGray)
+                            )
+                            Text(stringResource(R.string.target_lock_screen), style = MaterialTheme.typography.bodySmall, color = Color.White)
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(
+                                selected = configuration == 2,
+                                onClick = { viewModel.onConfigurationChanged(2) },
+                                colors = RadioButtonDefaults.colors(selectedColor = Color.White, unselectedColor = Color.LightGray)
+                            )
+                            Text(stringResource(R.string.target_both_screens), style = MaterialTheme.typography.bodySmall, color = Color.White)
+                        }
 
-                    Button(
-                        onClick = { 
-                            viewModel.applyWallpaper(
-                                context = context, 
-                                scale = scale, 
-                                offsetX = offsetX, 
-                                offsetY = offsetY, 
-                                cw = containerSize.width, 
-                                ch = containerSize.height
-                            ) 
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                    ) {
-                        Text(stringResource(R.string.apply_wallpaper))
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Button(
+                            onClick = {
+                                viewModel.applyWallpaper(
+                                    context = context,
+                                    scale = scale,
+                                    offsetX = offsetX,
+                                    offsetY = offsetY,
+                                    cw = containerSize.width,
+                                    ch = containerSize.height
+                                )
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(56.dp)
+                        ) {
+                            Text(stringResource(R.string.apply_wallpaper))
+                        }
                     }
                 }
             }
         }
     }
-}}
+}
