@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/widget_bg"
+    android:padding="8dp"
+    android:gravity="center">
+
+    <FrameLayout
+        android:id="@+id/widget_item_1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="4dp"
+        android:background="@drawable/widget_item_bg"
+        android:clipToOutline="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/widget_image_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/widget_icon_1"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="6dp"
+            android:padding="3dp"
+            android:src="@drawable/ic_history_home"
+            android:background="@drawable/badge_bg_home" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/widget_item_2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="4dp"
+        android:background="@drawable/widget_item_bg"
+        android:clipToOutline="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/widget_image_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/widget_icon_2"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="6dp"
+            android:padding="3dp"
+            android:src="@drawable/ic_history_home"
+            android:background="@drawable/badge_bg_home" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/widget_item_3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="4dp"
+        android:background="@drawable/widget_item_bg"
+        android:clipToOutline="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/widget_image_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/widget_icon_3"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="6dp"
+            android:padding="3dp"
+            android:src="@drawable/ic_history_home"
+            android:background="@drawable/badge_bg_home" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/widget_item_4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="4dp"
+        android:background="@drawable/widget_item_bg"
+        android:clipToOutline="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/widget_image_4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/widget_icon_4"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="6dp"
+            android:padding="3dp"
+            android:src="@drawable/ic_history_home"
+            android:background="@drawable/badge_bg_home" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/widget_item_5"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="4dp"
+        android:background="@drawable/widget_item_bg"
+        android:clipToOutline="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/widget_image_5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/widget_icon_5"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="6dp"
+            android:padding="3dp"
+            android:src="@drawable/ic_history_home"
+            android:background="@drawable/badge_bg_home" />
+    </FrameLayout>
+
+</LinearLayout>

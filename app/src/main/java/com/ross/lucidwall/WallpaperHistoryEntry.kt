@@ -16,5 +16,11 @@ data class WallpaperHistoryEntry(
     val blurRadius: Float,
     val configuration: Int,
     val appliedAt: Long,
-    val thumbnailBase64: String
+    val thumbnailBase64: String,
+    // Layout metrics for reproducing the exact crop/pan/zoom in the background
+    val scale: Float = 1f,
+    val offsetX: Float = 0f,
+    val offsetY: Float = 0f,
+    val cw: Int = 1080,
+    val ch: Int = 1920
 )

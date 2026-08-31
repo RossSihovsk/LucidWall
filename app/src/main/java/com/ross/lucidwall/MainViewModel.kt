@@ -96,19 +96,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val blurredBitmap = if (radius > 0f) {
                     withContext(Dispatchers.Default) {
-                        // Downscale before blurring to intensify the effect and speed up processing
-                        // Reduced scaling factor as it was too intense
-                        val scaleDown = 1f + (radius / 8f)
-                        val w = (originalBitmap.width / scaleDown).toInt().coerceAtLeast(10)
-                        val h = (originalBitmap.height / scaleDown).toInt().coerceAtLeast(10)
-                        
-                        val scaled = if (w < originalBitmap.width) {
-                            Bitmap.createScaledBitmap(originalBitmap, w, h, true)
-                        } else {
-                            originalBitmap
-                        }
-                        
-                        Toolkit.blur(scaled, radius.toInt().coerceIn(1, 25))
+                        WallpaperHelper.blurBitmap(originalBitmap, radius)
                     }
                 } else {
                     originalBitmap
@@ -140,23 +128,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 withContext(Dispatchers.IO) {
-                    val finalClear = cropAndTransform(originalBitmap, cw, ch, scale, offsetX, offsetY)
-                    val finalBlurred = cropAndTransform(blurredBitmap, cw, ch, scale, offsetX, offsetY)
+                    val finalClear = WallpaperHelper.cropAndTransform(originalBitmap, cw, ch, scale, offsetX, offsetY)
+                    val finalBlurred = WallpaperHelper.cropAndTransform(blurredBitmap, cw, ch, scale, offsetX, offsetY)
 
-                    val wallpaperManager = WallpaperManager.getInstance(context)
-                    when (config) {
-                        0 -> { // Blurred Home, Clear Lock
-                            wallpaperManager.setBitmap(finalClear, null, false, WallpaperManager.FLAG_LOCK)
-                            wallpaperManager.setBitmap(finalBlurred, null, false, WallpaperManager.FLAG_SYSTEM)
-                        }
-                        1 -> { // Blurred Lock, Clear Home
-                            wallpaperManager.setBitmap(finalClear, null, false, WallpaperManager.FLAG_SYSTEM)
-                            wallpaperManager.setBitmap(finalBlurred, null, false, WallpaperManager.FLAG_LOCK)
-                        }
-                        2 -> { // Both screens get blurred
-                            wallpaperManager.setBitmap(finalBlurred, null, false, WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK)
-                        }
-                    }
+                    WallpaperHelper.applyToSystem(context, finalClear, finalBlurred, config)
                 }
 
                 // Persist history entry
@@ -166,7 +141,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     blurRadius = _blurRadius.value,
                     configuration = config,
                     appliedAt = System.currentTimeMillis(),
-                    thumbnailBase64 = thumbnailBase64
+                    thumbnailBase64 = thumbnailBase64,
+                    scale = scale,
+                    offsetX = offsetX,
+                    offsetY = offsetY,
+                    cw = cw,
+                    ch = ch
                 )
                 repository.saveEntry(entry)
                 _history.value = repository.loadEntries()
@@ -222,34 +202,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return Base64.encodeToString(stream.toByteArray(), Base64.NO_WRAP)
     }
 
-    private fun cropAndTransform(
-        bitmap: Bitmap,
-        cw: Int,
-        ch: Int,
-        scale: Float,
-        offsetX: Float,
-        offsetY: Float
-    ): Bitmap {
-        if (cw <= 0 || ch <= 0) return bitmap
 
-        val result = Bitmap.createBitmap(cw, ch, Bitmap.Config.ARGB_8888)
-        val canvas = android.graphics.Canvas(result)
-        val bw = bitmap.width
-        val bh = bitmap.height
-        val cropScale = maxOf(cw.toFloat() / bw, ch.toFloat() / bh)
-        val dx = (cw - bw * cropScale) / 2f
-        val dy = (ch - bh * cropScale) / 2f
-
-        val matrix = android.graphics.Matrix()
-        matrix.postScale(cropScale, cropScale)
-        matrix.postTranslate(dx, dy)
-        matrix.postScale(scale, scale, cw / 2f, ch / 2f)
-        matrix.postTranslate(offsetX, offsetY)
-
-        val paint = android.graphics.Paint(android.graphics.Paint.FILTER_BITMAP_FLAG)
-        canvas.drawBitmap(bitmap, matrix, paint)
-        return result
-    }
 
     fun acknowledgeState() {
         if (lastSelectedImage != null) {

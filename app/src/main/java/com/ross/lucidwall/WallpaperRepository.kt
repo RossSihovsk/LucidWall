@@ -11,8 +11,10 @@ import org.json.JSONObject
  */
 class WallpaperRepository private constructor(context: Context) {
 
+    private val appContext: Context = context.applicationContext
+    
     private val prefs: SharedPreferences =
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     // ── Public API ────────────────────────────────────────────────────────────
 
@@ -29,6 +31,9 @@ class WallpaperRepository private constructor(context: Context) {
         // Trim to cap
         val trimmed = current.take(MAX_ENTRIES)
         prefs.edit().putString(KEY_HISTORY, entriesToJson(trimmed)).apply()
+        
+        // Notify the widget to refresh its UI
+        HistoryWidgetProvider.updateAllWidgets(appContext)
     }
 
     /**
@@ -55,6 +60,11 @@ class WallpaperRepository private constructor(context: Context) {
                 put(FIELD_CONF, e.configuration)
                 put(FIELD_AT, e.appliedAt)
                 put(FIELD_THUMB, e.thumbnailBase64)
+                put(FIELD_SCALE, e.scale.toDouble())
+                put(FIELD_OFFSET_X, e.offsetX.toDouble())
+                put(FIELD_OFFSET_Y, e.offsetY.toDouble())
+                put(FIELD_CW, e.cw)
+                put(FIELD_CH, e.ch)
             }
             array.put(obj)
         }
@@ -73,7 +83,12 @@ class WallpaperRepository private constructor(context: Context) {
                     blurRadius = obj.getDouble(FIELD_BLUR).toFloat(),
                     configuration = obj.getInt(FIELD_CONF),
                     appliedAt = obj.getLong(FIELD_AT),
-                    thumbnailBase64 = obj.getString(FIELD_THUMB)
+                    thumbnailBase64 = obj.getString(FIELD_THUMB),
+                    scale = obj.optDouble(FIELD_SCALE, 1.0).toFloat(),
+                    offsetX = obj.optDouble(FIELD_OFFSET_X, 0.0).toFloat(),
+                    offsetY = obj.optDouble(FIELD_OFFSET_Y, 0.0).toFloat(),
+                    cw = obj.optInt(FIELD_CW, 1080),
+                    ch = obj.optInt(FIELD_CH, 1920)
                 )
             )
         }
@@ -93,6 +108,11 @@ class WallpaperRepository private constructor(context: Context) {
         private const val FIELD_CONF  = "conf"
         private const val FIELD_AT    = "at"
         private const val FIELD_THUMB = "thumb"
+        private const val FIELD_SCALE = "scale"
+        private const val FIELD_OFFSET_X = "offset_x"
+        private const val FIELD_OFFSET_Y = "offset_y"
+        private const val FIELD_CW = "cw"
+        private const val FIELD_CH = "ch"
 
         @Volatile
         private var instance: WallpaperRepository? = null

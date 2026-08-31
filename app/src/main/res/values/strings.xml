@@ -18,4 +18,5 @@
     <string name="history_home">Home</string>
     <string name="history_lock">Lock</string>
     <string name="history_both">Both</string>
+    <string name="applying_wallpaper_bg">Applying wallpaper…</string>
 </resources>
